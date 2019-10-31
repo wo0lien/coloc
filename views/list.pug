@@ -1,0 +1,7 @@
+extends layout
+  
+block content
+  h1 List de tout les ptits bails
+  ul
+  each ing in ingredients
+    li #{ing.qt} #{ing.name}
