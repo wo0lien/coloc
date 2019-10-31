@@ -1,7 +1,13 @@
 extends layout
   
 block content
-  h1 List de tout les ptits bails
-  ul
-  each ing in ingredients
-    li #{ing.qt} #{ing.type} #{ing.name}
+  .container
+    h1.text-center Liste de tout les ptits bails
+
+    each ing in ingredients
+      .alert.alert-dark
+        .row
+          .col-6 #{ing.qt} #{ing.type} #{ing.name}
+          .col-6.text-right
+            button.btn.btn-danger delete
+            button.btn.btn-success check
