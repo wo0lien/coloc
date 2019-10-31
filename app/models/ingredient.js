@@ -15,6 +15,7 @@ db.once('open', function() {
 
 var ingredientSchema = new Schema({
   name: String,
+  type: String,
   qt: String
 });
 
