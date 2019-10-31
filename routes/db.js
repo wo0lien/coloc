@@ -14,30 +14,28 @@ router.post('/', function (req, res, next) {
   let types = Array(names.length);
   let quantites = req.body.quantite;
 
-  names.forEach((name, index) => {
+  for (let i = 0; i < names.length; i++) {
     
     //inspection de l'ingredient
     
     //on enleve les espaces en trop en debut et fin de mot
-    if (name.startsWith(" ")) {
-      name = name.substring(1);
+    if (names[i].startsWith(" ")) {
+      names[i] = names[i].substring(1);
     }
-    if (name.endsWith(" ")) {
-      name = name.substring(0, name.length - 2);
+    if (names[i].endsWith(" ")) {
+      names[i] = names[i].substring(0, names[i].length - 1);
     }
 
     //on check si on trouve des chaines de caractère récurrentes
     
     qtTypes.forEach(type => {
-      if (name.includes(type)) {
-        name.substring(type.length - 1);
-        types[index] = type;
+      if (names[i].includes(type)) {
+        names[i] = names[i].substring(type.length);
+        types[i] = type;
       }
     });
-    
-    // on pourra en rajouter plus tard, faire un array avec une liste de mots
 
-  });
+  };
 
   //adding ingredients to database
    names.forEach((name, index) => {
