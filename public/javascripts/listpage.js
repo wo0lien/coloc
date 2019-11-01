@@ -1,5 +1,8 @@
-let btnsSuccess = document.getElementsByClassName("btn-success");
-let btnDel = document.getElementsByClassName("btn-danger")[0];
+//refactor pointers
+
+let btnsSuccess = document.getElementsByClassName("btn-check");
+let btnDel = document.getElementById("btnDelete");
+let btnAdd = document.getElementById("btnAdd");
 let btnConfirm = document.getElementById("confirmDeleteConfirmButton");
 
 let checkedDivs = [];
@@ -24,11 +27,12 @@ function successClick(event) {
 
     div.setAttribute("class", div.className.replace("alert-success", "alert-dark"));
     btn.innerHTML = 'Check';
-    btn.setAttribute("class", btn.className.replace("btn-warning", "btn-success"));
+    btn.setAttribute("class", btn.className.replace("btn-warning", "btn-primary"));
     checkedDivs.pop(div.id);
     //si il ne reste plus de boutons checked on l'enleve
     if (checkedDivs.length == 0) {
       btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
+      btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
     }
 
   } else {
@@ -36,10 +40,11 @@ function successClick(event) {
 
     div.setAttribute("class", div.className.replace("alert-dark", "alert-success"));
     btn.innerHTML = 'Uncheck';
-    btn.setAttribute("class", btn.className.replace("btn-success", "btn-warning"));
+    btn.setAttribute("class", btn.className.replace("btn-primary", "btn-warning"));
     checkedDivs.push(div.id);
 
     btnDel.setAttribute("class", btnDel.className.replace("d-none", "btn-block"));
+    btnAdd.setAttribute("class", btnAdd.className.replace("btn-block", "d-none"));
   }
 
 }
@@ -65,7 +70,18 @@ function confirmClick(event) {
        .then((res) => { console.log(res) })
        .catch((error) => { console.log(error) })
 
-    //il faudrait mettre a jour la page à ce moment la ou juste reload
+    // mise a jour des element en enlevant ceux qui ne sont plus dans la liste
+
+    checkedDivs.forEach(divid => {
+      document.getElementById(divid).remove();
+    });
+
+    //on reset checked divs et on fait disparaitre le bouton delete
+    checkedDivs = [];
+    btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
+    btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
+
+
 }
 
 function delClick(event) {

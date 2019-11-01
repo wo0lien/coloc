@@ -3,22 +3,27 @@ extends layout
 block content
 
   //- Content start here
-  .container.mb-5
+  .container.mb-3
     h1.text-center Liste de tout les ptits bails
 
     each ing in ingredients
-      div(id=`${ing._id}` class=`alert alert-dark row`)
+      div(id=`${ing._id}` class=`alert alert-dark row mx-1 mx-sm-0`)
         if (ing.qt != 0) 
           .col-6 #{ing.qt} #{ing.type} #{ing.name}
         else
           .col-6 #{ing.type} #{ing.name}
 
         .col-6.text-right
-          button(id=`${ing._id}-success` class=`btn btn-success mr-3 mr-sm-0`) Check
+          button(id=`${ing._id}-success` class=`btn btn-primary btn-check`) Check
+
+    //button just used for the purpose of margin the bottom
+
+    button.btn.btn-large.invisible invisible button
 
     // button exist but not yet displayed
     .container.fixed-bottom
-      button(type="button" class=`btn btn-lg btn-danger d-none mb-2` data-toggle="modal" data-target="#confirmDelete") Delete
+      button(id="btnDelete" type="button" class=`btn btn-lg btn-danger d-none mb-2` data-toggle="modal" data-target="#confirmDelete") Tej
+      button(id="btnAdd" type="button" class=`btn btn-lg btn-success btn-block mb-2`) Ajouter
 
   include mixins/modal
   +modal("confirmDelete", "Fais gaffe !", "T'es sûr de ce que tu vas faire là ?")
