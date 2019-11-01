@@ -3,18 +3,27 @@ extends layout
 block content
 
   //- Content start here
+
+  h1.text-center Liste de tout les ptits bails
+
   .container.mb-3
-    h1.text-center Liste de tout les ptits bails
+    .row
 
-    each ing in ingredients
-      div(id=`${ing._id}` class=`alert alert-dark row mx-1 mx-sm-0`)
-        if (ing.qt != 0) 
-          .col-6 #{ing.qt} #{ing.type} #{ing.name}
-        else
-          .col-6 #{ing.type} #{ing.name}
+      each ing in ingredients
 
-        .col-6.text-right
-          button(id=`${ing._id}-success` class=`btn btn-primary btn-check`) Check
+        .container.col-12.col-md-6
+        
+          div(id=`${ing._id}` class=`alert alert-dark`)
+
+            .row
+
+              if (ing.qt != 0) 
+                .col-6 #{ing.qt} #{ing.type} #{ing.name}
+              else
+                .col-6 #{ing.type} #{ing.name}
+
+              .col-6.text-right
+                button(id=`${ing._id}-success` class=`btn btn-primary btn-check`) Check
 
     //button just used for the purpose of margin the bottom
 
