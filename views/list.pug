@@ -1,7 +1,7 @@
 extends layout
   
 block content
-  .container
+  .container.mb-5
     h1.text-center Liste de tout les ptits bails
 
     each ing in ingredients
@@ -12,11 +12,10 @@ block content
           .col-6 #{ing.type} #{ing.name}
 
         .col-6.text-right
-          button(id=`${ing._id}-del` class=`btn btn-danger mr-3`) Delete
           button(id=`${ing._id}-success` class=`btn btn-success mr-3 mr-sm-0`) Check
 
-    // button exist but not yet created
-    //.container.fixed-bottom
-    //  button.btn.btn-lg.btn-danger.d-none.mb-3 Delete
+    // button exist but not yet displayed
+    .container.fixed-bottom
+      button.btn.btn-lg.btn-danger.d-none.mb-2 Delete
   
   script(src="/javascripts/list.js" type="text/javascript")
