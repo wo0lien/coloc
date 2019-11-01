@@ -68,20 +68,22 @@ function confirmClick(event) {
     headers: myHeaders,
     body: JSON.stringify(dataTransmited)
   })
-    .then((res) => { console.log(res) })
+    .then((res) => { 
+      console.log(res);
+      
+      // mise a jour des element en enlevant ceux qui ne sont plus dans la liste
+
+      checkedDivs.forEach(divid => {
+        document.getElementById(divid).remove();
+      });
+
+      //on reset checked divs et on fait disparaitre le bouton delete
+      checkedDivs = [];
+      btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
+      btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
+
+    })
     .catch((error) => { console.log(error) })
-
-  // mise a jour des element en enlevant ceux qui ne sont plus dans la liste
-
-  checkedDivs.forEach(divid => {
-    document.getElementById(divid).remove();
-  });
-
-  //on reset checked divs et on fait disparaitre le bouton delete
-  checkedDivs = [];
-  btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
-  btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
-
 
 }
 
@@ -105,6 +107,14 @@ function submitAddClick(event) {
     headers: myHeaders,
     body: JSON.stringify(dataTransmited)
   })
-    .then((res) => { console.log(res) })
+    .then((res) => {
+
+      console.log(res);
+      
+      //reload page plus simple que de recréer un element html a plusieurs niveaux
+
+      document.location.reload(true);
+
+    })
     .catch((error) => { console.log(error) })
 }
