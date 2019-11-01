@@ -1,6 +1,6 @@
 //- Mixin modal declaration
 
-mixin modal(id, title, text)
+mixin modal(id, title, text, confirmButtonText)
   .modal.fade(id=id tabindex='-1' role='dialog' aria-labelledby=id+'Title' aria-hidden='true')
     .modal-dialog.modal-dialog-centered(role='document')
       .modal-content
@@ -10,5 +10,5 @@ mixin modal(id, title, text)
             span(aria-hidden='true') &times;
         .modal-body=text
         .modal-footer
-          button.btn.btn-secondary(type='button' data-dismiss='modal') Non
-          button.btn.btn-primary(id=id+"ConfirmButton" type='button' data-dismiss='modal') Ouaip
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Ferme
+          button.btn.btn-primary(id=id+"ConfirmButton" type='button' data-dismiss='modal')=confirmButtonText

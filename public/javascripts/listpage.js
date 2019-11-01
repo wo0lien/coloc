@@ -4,6 +4,7 @@ let btnsSuccess = document.getElementsByClassName("btn-check");
 let btnDel = document.getElementById("btnDelete");
 let btnAdd = document.getElementById("btnAdd");
 let btnConfirm = document.getElementById("confirmDeleteConfirmButton");
+let btnSubmitAdd = document.getElementById("SubmitAddForm");
 
 let checkedDivs = [];
 
@@ -11,8 +12,8 @@ for (btnSuccess of btnsSuccess) {
   btnSuccess.onclick = successClick;
 }
 
-btnDel.onclick = delClick;
 btnConfirm.onclick = confirmClick;
+btnSubmitAdd.onclick = submitAddClick;
 
 function successClick(event) {
   
@@ -84,11 +85,7 @@ function confirmClick(event) {
 
 }
 
-function delClick(event) {
-
-  let btn = event.target;
-  
-  // delete from database
-  console.log(btn.id);
-
+function submitAddClick(event) {
+  var qt = document.getElementById("InputQuantite").textContent;
+  var name = document.getElementById("InputName")
 }

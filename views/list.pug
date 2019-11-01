@@ -32,9 +32,13 @@ block content
     // button exist but not yet displayed
     .container.fixed-bottom
       button(id="btnDelete" type="button" class=`btn btn-lg btn-danger d-none mb-2` data-toggle="modal" data-target="#confirmDelete") Tej
-      button(id="btnAdd" type="button" class=`btn btn-lg btn-success btn-block mb-2`) Ajouter
+      button(id="btnAdd" type="button" class=`btn btn-lg btn-success btn-block mb-2` data-toggle="modal" data-target="#addObject") Ajouter
 
   include mixins/modal
-  +modal("confirmDelete", "Fais gaffe !", "T'es sûr de ce que tu vas faire là ?")
+  include mixins/formModal
+
+  +modal("confirmDelete", "Fais gaffe !", "T'es sûr de ce que tu vas faire là ?", "Ouaip")
+
+  +formModal("addObject", "Rajoute un objet de ton choix")
   
   script(src="/javascripts/listpage.js" type="text/javascript")
