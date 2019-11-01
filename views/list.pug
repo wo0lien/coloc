@@ -1,6 +1,8 @@
 extends layout
   
 block content
+
+  //- Content start here
   .container.mb-5
     h1.text-center Liste de tout les ptits bails
 
@@ -16,6 +18,9 @@ block content
 
     // button exist but not yet displayed
     .container.fixed-bottom
-      button.btn.btn-lg.btn-danger.d-none.mb-2 Delete
+      button(type="button" class=`btn btn-lg btn-danger d-none mb-2` data-toggle="modal" data-target="#coucou") Delete
+
+  include mixins/modal
+  +modal("coucou", "Fais gaffe !", "T'es sûr de ce que tu vas faire là ?")
   
   script(src="/javascripts/list.js" type="text/javascript")

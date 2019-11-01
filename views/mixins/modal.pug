@@ -1,0 +1,14 @@
+//- Mixin modal declaration
+
+mixin modal(id, title, text)
+  .modal.fade(id=id tabindex='-1' role='dialog' aria-labelledby=id+'Title' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(role='document')
+      .modal-content
+        .modal-header
+          h5(id=id+"LongTitle" class="modal-title")=title
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body=text
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Non
+          button.btn.btn-primary(type='button' data-dismiss='modal') Ouaip

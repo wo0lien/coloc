@@ -38,7 +38,6 @@ function successClick(event) {
     checkedButtons++;
 
     btnDel.setAttribute("class", btnDel.className.replace("d-none", "btn-block"));
-
   }
 
 }
