@@ -1,10 +1,10 @@
-//refactor pointers
-
 let btnsSuccess = document.getElementsByClassName("btn-check");
 let btnDel = document.getElementById("btnDelete");
 let btnAdd = document.getElementById("btnAdd");
 let btnConfirm = document.getElementById("confirmDeleteConfirmButton");
 let btnSubmitAdd = document.getElementById("SubmitAddForm");
+
+let serverUrl  = window.location.href.substring(0, window.location.href.length - 5);
 
 let checkedDivs = [];
 
@@ -63,7 +63,7 @@ function confirmClick(event) {
     'id': checkedDivs
   };
 
-  fetch('http://localhost:3000/db/remove', {
+  fetch(serverUrl + '/db/remove', {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(dataTransmited)
@@ -102,7 +102,7 @@ function submitAddClick(event) {
     'quantites': [qt]
   };
 
-  fetch('http://localhost:3000/db/add', {
+  fetch(serverUrl + '/db/add', {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(dataTransmited)
