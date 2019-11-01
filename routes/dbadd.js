@@ -12,7 +12,7 @@ router.post('/', function (req, res, next) {
 
   let names = req.body.ingredients;
   let types = Array(names.length);
-  let quantites = req.body.quantite;
+  let quantites = req.body.quantites;
 
   for (let i = 0; i < names.length; i++) {
 

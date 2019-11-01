@@ -16,7 +16,7 @@ btnConfirm.onclick = confirmClick;
 btnSubmitAdd.onclick = submitAddClick;
 
 function successClick(event) {
-  
+
   // pass color to green
 
   let btn = event.target;
@@ -55,37 +55,56 @@ function confirmClick(event) {
   //transmet le tableau des elements a enlever a l'API
 
   let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Content-Type", "application/json");
 
-    console.log(checkedDivs)
+  console.log(checkedDivs)
 
-    let dataTransmited = {
-      'id': checkedDivs
-    };
+  let dataTransmited = {
+    'id': checkedDivs
+  };
 
-    fetch('http://localhost:3000/db/remove', {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(dataTransmited)
-    })
-       .then((res) => { console.log(res) })
-       .catch((error) => { console.log(error) })
+  fetch('http://localhost:3000/db/remove', {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(dataTransmited)
+  })
+    .then((res) => { console.log(res) })
+    .catch((error) => { console.log(error) })
 
-    // mise a jour des element en enlevant ceux qui ne sont plus dans la liste
+  // mise a jour des element en enlevant ceux qui ne sont plus dans la liste
 
-    checkedDivs.forEach(divid => {
-      document.getElementById(divid).remove();
-    });
+  checkedDivs.forEach(divid => {
+    document.getElementById(divid).remove();
+  });
 
-    //on reset checked divs et on fait disparaitre le bouton delete
-    checkedDivs = [];
-    btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
-    btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
+  //on reset checked divs et on fait disparaitre le bouton delete
+  checkedDivs = [];
+  btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
+  btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
 
 
 }
 
 function submitAddClick(event) {
-  var qt = document.getElementById("InputQuantite").textContent;
-  var name = document.getElementById("InputName")
+  var qt = document.getElementById("InputQuantite").value;
+  var name = document.getElementById("InputName").value;
+
+  console.log(name);
+  console.log(qt);
+
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  let dataTransmited = {
+    'ingredients': [name],
+    'quantites': [qt]
+  };
+
+  fetch('http://localhost:3000/db/add', {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(dataTransmited)
+  })
+    .then((res) => { console.log(res) })
+    .catch((error) => { console.log(error) })
 }
