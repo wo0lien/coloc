@@ -9,7 +9,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var dataRouter = require('./routes/db');
+var dataAddRouter = require('./routes/dbadd');
+var dataRemoveRouter = require('./routes/dbremove');
 var listRouter = require('./routes/list')
 
 var app = express();
@@ -30,7 +31,8 @@ app.use(bodyParser.json());
 
 app.use('/', indexRouter);
 
-app.use('/db', dataRouter);
+app.use('/db/add', dataAddRouter);
+app.use('/db/remove', dataRemoveRouter);
 
 app.use('/list', listRouter);
 app.use('/users', usersRouter);

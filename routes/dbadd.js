@@ -69,14 +69,14 @@ router.post('/', function (req, res, next) {
             let qt2 = Number(quantites[index]);
 
             //update entry en sommant si possible les quantités
-            Ingredient.findByIdAndUpdate(ingredient[0]._id, { 'qt': String(qt1 + qt2) }, {new: true }, function (err) {
+            Ingredient.findByIdAndUpdate(ingredient[0]._id, { 'qt': String(qt1 + qt2) }, { new: true }, function (err) {
               // Handle any possible database errors
-                if (err) throw err;
-                console.log('2 items merged');
-              })
+              if (err) throw err;
+              console.log('2 items merged');
+            })
 
           } else {
-            
+
             newIng.save(function (err) {
               if (err) throw err;
               console.log('Unable to merge, saved new item');
@@ -85,12 +85,10 @@ router.post('/', function (req, res, next) {
           }
         }
       })
-      
-      //add error catch
+
+    //add error catch
 
   });
-
-  console.log(req.body)
 
   res.json({ 'ok': true, 'quantite': quantites, 'ingredients': names, 'types': types });
 
