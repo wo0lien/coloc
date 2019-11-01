@@ -5,9 +5,18 @@ block content
     h1.text-center Liste de tout les ptits bails
 
     each ing in ingredients
-      .alert.alert-dark
-        .row
+      div(id=`${ing._id}` class=`alert alert-dark row`)
+        if (ing.qt != 0) 
           .col-6 #{ing.qt} #{ing.type} #{ing.name}
-          .col-6.text-right
-            button.btn.btn-danger delete
-            button.btn.btn-success check
+        else
+          .col-6 #{ing.type} #{ing.name}
+
+        .col-6.text-right
+          button(id=`${ing._id}-del` class=`btn btn-danger mr-3`) Delete
+          button(id=`${ing._id}-success` class=`btn btn-success mr-3 mr-sm-0`) Check
+
+    // button exist but not yet created
+    //.container.fixed-bottom
+    //  button.btn.btn-lg.btn-danger.d-none.mb-3 Delete
+  
+  script(src="/javascripts/list.js" type="text/javascript")
