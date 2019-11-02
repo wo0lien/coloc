@@ -1,31 +1,35 @@
+var cookieParser = require('cookie-parser');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var bodyParser = require("body-parser");
 var logger = require('morgan');
 
-//list of routers used
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var dataAddRouter = require('./routes/dbadd');
-var dataRemoveRouter = require('./routes/dbremove');
-var listRouter = require('./routes/list')
+//var http = require('http').Server(app);
 
 var app = express();
+
+app.use(cookieParser());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.io = require('socket.io')();
+
+//list of routers used
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var dataAddRouter = require('./routes/dbadd')(app.io);
+var dataRemoveRouter = require('./routes/dbremove')(app.io);
+var listRouter = require('./routes/list')
 
 //routes
 

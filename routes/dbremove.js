@@ -7,8 +7,6 @@ router.post('/', function (req, res, next) {
 
   let ids = req.body.id;
 
-  console.log(ids);
-
   ids.forEach(id => {
     Ingredient.findByIdAndDelete(id, function (err) {
       // Handle any possible database errors
@@ -18,8 +16,19 @@ router.post('/', function (req, res, next) {
 
   });
 
-  res.json({ 'ok': true, 'ids': ids });
+  res.sendStatus(200);
 
 });
 
-module.exports = router;
+module.exports = function (io) {
+  //Socket.IO
+  io.on('connection', function (socket) {
+      console.log('User has connected to dbremove');
+      //ON Events
+      socket.on('elementRemoved', function(){
+        io.emit('updatePage');
+      });
+      //End ON Events
+  });
+  return router;
+};

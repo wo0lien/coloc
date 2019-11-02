@@ -1,10 +1,21 @@
 let btnsSuccess = document.getElementsByClassName("btn-check");
 let btnDel = document.getElementById("btnDelete");
 let btnAdd = document.getElementById("btnAdd");
+let btnUpdate = document.getElementById("btnUpdate");
 let btnConfirm = document.getElementById("confirmDeleteConfirmButton");
 let btnSubmitAdd = document.getElementById("SubmitAddForm");
 
-let serverUrl  = window.location.href.substring(0, window.location.href.length - 5);
+let serverUrl = window.location.href.substring(0, window.location.href.length - 5);
+
+var socket = io();
+
+socket.on('updatePage', function () {
+  
+  btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
+  btnAdd.setAttribute("class", btnAdd.className.replace("btn-block", "d-none"));
+  btnUpdate.setAttribute("class", btnUpdate.className.replace("d-none", "btn-block"));
+
+});
 
 let checkedDivs = [];
 
@@ -14,6 +25,7 @@ for (btnSuccess of btnsSuccess) {
 
 btnConfirm.onclick = confirmClick;
 btnSubmitAdd.onclick = submitAddClick;
+btnUpdate.onclick = reloadPage;
 
 function successClick(event) {
 
@@ -27,25 +39,36 @@ function successClick(event) {
     //cas ou on passe en mode unchecked
 
     div.setAttribute("class", div.className.replace("alert-success", "alert-dark"));
+    
     btn.innerHTML = 'Check';
     btn.setAttribute("class", btn.className.replace("btn-warning", "btn-primary"));
+    
     checkedDivs.pop(div.id);
-    //si il ne reste plus de boutons checked on l'enleve
-    if (checkedDivs.length == 0) {
+
+    //si il ne reste plus de boutons checked on l'enleve sauf si il faut udpate
+    if (checkedDivs.length == 0 && btnUpdate.className.includes('d-none')) {
+    
       btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
       btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
+    
     }
 
   } else {
     //cas ou on passe en mode checked
 
     div.setAttribute("class", div.className.replace("alert-dark", "alert-success"));
+    
     btn.innerHTML = 'Uncheck';
     btn.setAttribute("class", btn.className.replace("btn-primary", "btn-warning"));
+    
     checkedDivs.push(div.id);
-
-    btnDel.setAttribute("class", btnDel.className.replace("d-none", "btn-block"));
-    btnAdd.setAttribute("class", btnAdd.className.replace("btn-block", "d-none"));
+    
+    if (btnUpdate.className.includes('d-none')) {
+      
+      btnDel.setAttribute("class", btnDel.className.replace("d-none", "btn-block"));
+      btnAdd.setAttribute("class", btnAdd.className.replace("btn-block", "d-none"));
+    
+    }
   }
 
 }
@@ -57,8 +80,6 @@ function confirmClick(event) {
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
-  console.log(checkedDivs)
-
   let dataTransmited = {
     'id': checkedDivs
   };
@@ -68,21 +89,7 @@ function confirmClick(event) {
     headers: myHeaders,
     body: JSON.stringify(dataTransmited)
   })
-    .then((res) => { 
-      console.log(res);
-      
-      // mise a jour des element en enlevant ceux qui ne sont plus dans la liste
-
-      checkedDivs.forEach(divid => {
-        document.getElementById(divid).remove();
-      });
-
-      //on reset checked divs et on fait disparaitre le bouton delete
-      checkedDivs = [];
-      btnDel.setAttribute("class", btnDel.className.replace("btn-block", "d-none"));
-      btnAdd.setAttribute("class", btnAdd.className.replace("d-none", "btn-block"));
-
-    })
+    .then((res) => { socket.emit('elementRemoved') })
     .catch((error) => { console.log(error) })
 
 }
@@ -90,9 +97,6 @@ function confirmClick(event) {
 function submitAddClick(event) {
   var qt = document.getElementById("InputQuantite").value;
   var name = document.getElementById("InputName").value;
-
-  console.log(name);
-  console.log(qt);
 
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -107,14 +111,10 @@ function submitAddClick(event) {
     headers: myHeaders,
     body: JSON.stringify(dataTransmited)
   })
-    .then((res) => {
-
-      console.log(res);
-      
-      //reload page plus simple que de recréer un element html a plusieurs niveaux
-
-      document.location.reload(true);
-
-    })
+    .then((res) => { socket.emit('elementAdded') })
     .catch((error) => { console.log(error) })
+}
+
+function reloadPage() {
+  window.location.reload();
 }

@@ -33,6 +33,7 @@ block content
     .container.fixed-bottom
       button(id="btnDelete" type="button" class=`btn btn-lg btn-danger d-none mb-2` data-toggle="modal" data-target="#confirmDelete") Tej
       button(id="btnAdd" type="button" class=`btn btn-lg btn-success btn-block mb-2` data-toggle="modal" data-target="#addObject") Ajouter
+      button(id="btnUpdate" type="button" class=`btn btn-lg btn-warning d-none mb-2`) Update narvalo
 
   include mixins/modal
   include mixins/formModal
@@ -41,4 +42,5 @@ block content
 
   +formModal("addObject", "Rajoute un objet de ton choix")
   
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js")
   script(src="/javascripts/listpage.js" type="text/javascript")

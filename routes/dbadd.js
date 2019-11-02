@@ -90,8 +90,19 @@ router.post('/', function (req, res, next) {
 
   });
 
-  res.json({ 'ok': true, 'quantite': quantites, 'ingredients': names, 'types': types });
+  res.sendStatus(200);
 
 });
 
-module.exports = router;
+ module.exports = function (io) {
+   //Socket.IO
+   io.on('connection', function (socket) {
+      console.log('User has connected to dbadd');
+      //ON Events
+      socket.on('elementAdded', function () {
+        io.emit('updatePage');
+      });
+      //End ON Events
+   });
+   return router;
+ };
