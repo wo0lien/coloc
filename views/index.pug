@@ -2,8 +2,37 @@ extends layout
 
 block content
   .container
-    .display-4.text-center Welcome to the coloc :)
-    h1 Work in progress... 
-    .alert.alert-primary acces à la liste 
-      a(href="/list") ici
-      |  (c'est le seul truc qui marche pour l'instant...)
+    .display-4.text-center.py-5 Welcome to the coloc :)
+    h1.pb-3 Work in progress... 
+
+    .row.justify-content-start
+      .col.col-md-6
+        .container
+          .card.mb-3
+            .card-header
+              .h3.card-title Liste de course
+            .card-body
+              p Pour l'instant la liste contient #{nbItems} produits.
+              a.btn.btn-primary(href='/list') téma la liste
+
+          .card
+            .card-header
+              .h3.card-title Les colocs
+            .card-body
+              li.list-group-item
+                .row
+                  .col-6 Rob
+                  .col-6.text-right
+                    button.btn.btn-primary Stats
+              li.list-group-item
+                .row 
+                  .col-6 Tom
+                  .col-6.text-right
+                    button.btn.btn-primary Stats
+              li.list-group-item
+                .row
+                  .col-6 Julos
+                  .col-6.text-right
+                    button.btn.btn-primary Stats
+
+              a.btn.btn-primary.mt-3(href='#') Voir les graphs
