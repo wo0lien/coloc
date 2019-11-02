@@ -1,23 +1,32 @@
 extends layout
 
 block content
+
   .container
     .display-4.text-center.py-5 Welcome to the coloc :)
     h1.pb-3.text-center Work in progress... 
 
     .row.justify-content-start
-      .col.col-md-6
-        .container
-          .card.mb-3
-            .card-header
-              .h3.card-title Liste de course
-            .card-body
-              p Pour l'instant la liste contient #{nbItems} produits.
-              a.btn.btn-primary(href='/list') téma la liste
+      .col-12.col-md-6
+        .card.mb-3
+          .card-header
+            .h3.card-title Liste de course
+          .card-body
+            p Pour l'instant la liste contient #{nbItems} produits.
+            a.btn.btn-primary(href='/list') téma la liste
 
-          .card
+        .card.mb-3
+          .card-header
+            .h3.card-title Liste de taches
+          .card-body
+            p Cette fonction n'est pas encore dispo
+            p mais c'est pour bientôt ;)
+            a.btn.btn-primary(href='/list') téma la liste
+      
+      .col-12.col-md-6
+        .card.mb-3
             .card-header
-              .h3.card-title Les colocs
+              .h3.card-title Les colocs &#129321;
             .card-body
               li.list-group-item
                 .row
@@ -25,7 +34,7 @@ block content
                   .col-6.text-right
                     button.btn.btn-primary Stats
               li.list-group-item
-                .row 
+                .row   
                   .col-6 Tom
                   .col-6.text-right
                     button.btn.btn-primary Stats
@@ -34,5 +43,9 @@ block content
                   .col-6 Julos
                   .col-6.text-right
                     button.btn.btn-primary Stats
-
-              a.btn.btn-primary.mt-3(href='#') Voir les graphs
+              .container.mt-3
+                h3.text-center Nombre de taches 
+                canvas#graph(width="auto" height="200")
+        
+  script(src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1/dist/Chart.min.js")
+  script(src="/javascripts/Chart.js" type="text/javascript")
