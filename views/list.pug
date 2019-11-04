@@ -7,23 +7,23 @@ block content
   h1.text-center.py-md-3 Liste de tout les ptits bails
 
   .container.mb-3
-    #listContainer.row
+    #listContainer.row.justify-content-right
 
       each ing in ingredients
 
-        .container.col-12.col-md-6
-        
-          div(id=`${ing._id}` class=`alert alert-dark`)
+        .col-12.col-md-6
+          
+            div(id=`${ing._id}` class=`alert alert-dark`)
 
-            .row
+              .row
 
-              if (ing.qt != 0) 
-                .col-6 #{ing.qt} #{ing.type} #{ing.name}
-              else
-                .col-6 #{ing.type} #{ing.name}
+                if (ing.qt != 0) 
+                  .col-6 #{ing.qt} #{ing.type} #{ing.name}
+                else
+                  .col-6 #{ing.type} #{ing.name}
 
-              .col-6.text-right
-                button(id=`${ing._id}-success` class=`btn btn-primary btn-check`) Check
+                .col-6.text-right
+                  button(id=`${ing._id}-success` class=`btn btn-primary btn-check`) Check
 
     //button just used for the purpose of margin the bottom
 

@@ -9,7 +9,9 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, dbNam
 mongoose.set('useFindAndModify', false);
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', (error) => {
+  console.log(error);
+});
 
 db.once('open', function() {
   console.log('database connected')
