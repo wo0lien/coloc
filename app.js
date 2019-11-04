@@ -6,12 +6,45 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require("body-parser");
 var logger = require('morgan');
+var mongoose = require('mongoose');
+require('dotenv').config();
+
+const productRouter = require('./API/routes/product.route'); // Imports new router
 
 var app = express();
 
-//socket.io require 
+//mongo db connection need to handle promise soon
+
+let dbUrl = process.env.MONGO_URL;
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'test'});
+mongoose.set('useFindAndModify', false);
+let db = mongoose.connection;
+db.on('error', (error) => {
+  console.log(error);
+});
+
+db.once('open', function() {
+  console.log('database connected')
+});
+
+//socket.io config 
 
 app.io = require('socket.io')();
+
+//socket.io connection
+
+app.io.on('connection', function (socket) {
+  console.log('User has connected to socket');
+});
+
+
+//new socket.io config pass to every http
+
+app.use(function(req, res, next) {
+  req.io = app.io;
+  next();
+});
+
 
 app.use(cookieParser());
 app.use(logger('dev'));
@@ -37,21 +70,20 @@ var listRouter = require('./routes/list')
 
 app.use('/', indexRouter);
 app.use('/list', listRouter);
-
-//api routes
-
 app.use('/db/add', dataAddRouter);
 app.use('/db/remove', dataRemoveRouter);
 
+//new API routes
 
+app.use('/product', productRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

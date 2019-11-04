@@ -17,6 +17,10 @@ socket.on('updatePage', function () {
 
 });
 
+socket.on('coucou', function () {
+  alert('coucou');
+});
+
 let checkedDivs = [];
 
 for (btnSuccess of btnsSuccess) {
