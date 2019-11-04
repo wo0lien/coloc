@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 require('dotenv').config();
 
 const productRouter = require('./API/routes/product.route'); // Imports new router
+const shoplistRouter = require('./routes/shoplist');
 
 var app = express();
 
@@ -37,8 +38,7 @@ app.io.on('connection', function (socket) {
   console.log('User has connected to socket');
 });
 
-
-//new socket.io config pass to every http
+//passing app.io to the req for use in the routes
 
 app.use(function(req, res, next) {
   req.io = app.io;
@@ -72,6 +72,10 @@ app.use('/', indexRouter);
 app.use('/list', listRouter);
 app.use('/db/add', dataAddRouter);
 app.use('/db/remove', dataRemoveRouter);
+
+// new pages routes
+
+app.use('/shoplist', shoplistRouter);
 
 //new API routes
 

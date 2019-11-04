@@ -19,8 +19,7 @@ exports.product_create = function (req, res) {
         if (err) {
             return next(err);
         }
-        //res.send('Product Created successfully');
-        req.io.emit('coucou');
+        req.io.emit('CreateProduct', product);
         res.sendStatus(200);
     })
 };
@@ -48,15 +47,17 @@ exports.product_list = function (req, res) {
 exports.product_update = function (req, res) {
     Product.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, product) {
         if (err) return next(err);
-        res.send('Product udpated.');
+        req.io.emit('UpdateProduct', product);
+        res.sendStatus(200);
     });
 };
 
 //delete
 
 exports.product_delete = function (req, res) {
-    Product.findByIdAndDelete(req.params.id, function (err) {
+    Product.findByIdAndDelete(req.params.id, function (err, product) {
         if (err) return next(err);
-        res.send('Product deleted successfully !');
+        req.io.emit('DeleteProduct', product);
+        res.sendStatus(200);
     });
 }
