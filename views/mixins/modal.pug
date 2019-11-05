@@ -11,4 +11,4 @@ mixin modal(id, title, text, confirmButtonText)
         .modal-body=text
         .modal-footer
           button.btn.btn-secondary(type='button' data-dismiss='modal') Ferme
-          button.btn.btn-primary(id=id+"ConfirmButton" type='button' data-dismiss='modal')=confirmButtonText
+          button.btn.btn-primary(id=id+"ConfirmButton" type='button' data-dismiss='modal' v-on:click="deleteProducts")=confirmButtonText

@@ -3,8 +3,43 @@ extends layout
 block content
 
   //- Content start here
+  #vapp
 
-  h1.text-center.py-md-3  Coucou
+    h1.text-center.py-md-3  Liste des ptits bails
+    
+    //vue basic container v-cloak to wait loading before display
+    .container.mb-3(v-cloak)
+      h2.text-center.col-12(v-if="loading") Loading...
+
+      #listContainer.row.justify-content-right(v-else)
+
+        .col-12.col-md-6(v-for="product in products")
+          div(:id="product._id" class="alert alert-dark")
+            .row
+              .col-6 {{product.name}} {{product.quantity}}
+              .col-6.text-right
+                button(class="btn btn-primary btn-check" v-on:click="check") Check
+
+      //button just used for the purpose of margin the bottom
+
+      button.btn.btn-large.invisible invisible button
+
+      // button exist but not yet displayed
+      .container.fixed-bottom
+        button(id="btnDelete" type="button" class="btn btn-lg btn-danger d-none mb-2" data-toggle="modal" data-target="#confirmDelete") Tej
+        button(id="btnAdd" type="button" class="btn btn-lg btn-success btn-block mb-2" data-toggle="modal" data-target="#addObject") Ajouter
+        
+    include mixins/modal
+    include mixins/formModal
+
+    +modal("confirmDelete", "Fais gaffe !", "T'es sûr de ce que tu vas faire là ?", "Ouaip")
+
+    +formModal("addObject", "Rajoute un objet de ton choix")
+        
+
+
+  
+  // scripts
 
   script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js")
   script(src="/javascripts/shoplistpage.js" type="text/javascript")

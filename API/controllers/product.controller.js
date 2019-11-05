@@ -61,3 +61,18 @@ exports.product_delete = function (req, res) {
         res.sendStatus(200);
     });
 }
+
+//delete list
+
+exports.product_delete_list = function (req, res) {
+    
+    var ids = req.body.ids;
+    
+    ids.forEach(id => {
+        Product.findByIdAndDelete(id, function (err, product) {
+            if (err) return next(err);
+            req.io.emit('DeleteProduct', JSON.stringify(product));
+        });
+    });
+    res.sendStatus(200);
+}
