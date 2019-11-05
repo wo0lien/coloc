@@ -17,6 +17,6 @@ mixin formModal(id, title)
             .form-group
               label(for='InputQuantite') Quantité
               input#InputQuantite.form-control(type='text' placeholder='Quantite')
-            button.btn.btn-primary(id="SubmitAddForm" type='button' data-dismiss='modal') Ajoutey
+            button.btn.btn-primary(id="SubmitAddForm" type='button' data-dismiss='modal' v-on:click="addProduct") Ajoutey
         .modal-footer
           button.btn.btn-secondary(type='button' data-dismiss='modal') Ferme

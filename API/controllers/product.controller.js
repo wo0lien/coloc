@@ -71,7 +71,7 @@ exports.product_delete_list = function (req, res) {
     ids.forEach(id => {
         Product.findByIdAndDelete(id, function (err, product) {
             if (err) return next(err);
-            req.io.emit('DeleteProduct', JSON.stringify(product));
+            req.io.emit('DeleteProduct', product);
         });
     });
     res.sendStatus(200);
