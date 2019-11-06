@@ -9,10 +9,14 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 require('dotenv').config();
 
-const productRouter = require('./API/routes/product.route'); // Imports new router
+//new routers import
+
+const productRouter = require('./API/routes/product.route'); 
 const shoplistRouter = require('./routes/shoplist');
 
 var app = express();
+
+//------------------------------- MONGOOSE --------------------------------------
 
 //mongo db connection need to handle promise soon
 
@@ -27,6 +31,8 @@ db.on('error', (error) => {
 db.once('open', function() {
   console.log('database connected')
 });
+
+//------------------------------ SOCKET IO -----------------------------------
 
 //socket.io config 
 
@@ -45,6 +51,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+//---------------------------------------------------------------------------
 
 app.use(cookieParser());
 app.use(logger('dev'));
@@ -62,19 +69,10 @@ app.set('view engine', 'pug');
 //list of routers used
 
 var indexRouter = require('./routes/index');
-var dataAddRouter = require('./routes/dbadd')(app.io);
-var dataRemoveRouter = require('./routes/dbremove')(app.io);
-var listRouter = require('./routes/list')
 
 //routes
 
 app.use('/', indexRouter);
-app.use('/list', listRouter);
-app.use('/db/add', dataAddRouter);
-app.use('/db/remove', dataRemoveRouter);
-
-// new pages routes
-
 app.use('/shoplist', shoplistRouter);
 
 //new API routes
