@@ -6,6 +6,8 @@ block content
   #vapp
 
     h1.text-center.py-md-3  Liste des ptits bails
+    .text-center(v-if="!loading")
+      #btnCheckAll.btn.btn-primary.mb-3(v-on:click="checkAll") Check all
     
     //vue basic container v-cloak to wait loading before display
     .container.mb-3(v-cloak)
@@ -16,7 +18,9 @@ block content
         .col-12.col-md-6(v-for="product in products")
           div(:id="product._id" class="alert alert-dark")
             .row
-              .col-6 {{product.name}} {{product.quantity}}
+              .col-6(v-if="product.quantity != 0") {{product.quantity}} {{product.name}}
+              .col-6(v-else) {{product.name}}
+
               .col-6.text-right
                 button(class="btn btn-primary btn-check" v-on:click="check") Check
 

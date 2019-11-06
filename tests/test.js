@@ -23,18 +23,31 @@ describe("Basic pages", () => {
   });
 });
 
-describe("API call", () =>{
-  describe("POST /db", () => {
+describe("API calls", () =>{
+  describe("POST valid /product/create request", () => {
     //test
-    it("Should get a json response with 2 ingredients", (done) => {
+    it("Should get a 200 res", (done) => {
       chai.request(server)
-        .post('/db')
+        .post('/product/create')
         .set('Content-type', 'application/json')
-        .send({'ingredients': ['farine', 'oeufs'], 'quantite': [2, 3]})
+        .send({'name': 'farine', 'quantity': 2})
         .end(function (err, res) {
           expect(err).to.be.null;
-          expect(res.body.ingredients).to.be.an('array').that.include('farine', 'oeufs');
-          expect(res.body.ingredients).to.have.lengthOf(2);
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe("POST not valid /product/create request", () => {
+    //test
+    it("Should get a 500 res", (done) => {
+      chai.request(server)
+        .post('/product/create')
+        .set('Content-type', 'application/json')
+        .send({'name': 'farine', 'quantity': 'lo'})
+        .end(function (err, res) {
+          console.log("chai " + res);
+          res.should.have.status(500);
           done();
         });
     });

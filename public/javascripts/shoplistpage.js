@@ -72,6 +72,41 @@ const vueApp = new Vue({
         body: JSON.stringify(fetchData)
       })
         .catch((error) => { console.log(error) })
+    },
+    checkAll: function (event) {
+
+      let btnEvent = event.target
+      let btns = document.getElementsByClassName("btn-check");
+      
+      //on check le mode du bouton check all
+
+      if (btnEvent.className.includes("btn-primary")) {
+
+        //on passe tout les items en checked
+        let btns = document.getElementsByClassName("btn-check");
+        for (btn of btns) {
+          checkProduct(btn);
+        }
+
+        //on passe le bouton en mode uncheck all
+
+        btnEvent.setAttribute("class", btnEvent.className.replace("btn-primary", "btn-warning"));
+        btnEvent.innerHTML = "Uncheck all"
+      
+      } else {
+
+        //on passe tout les items en mode unchecked
+
+        for (btn of btns) {
+          uncheckProduct(btn);
+        }
+
+        //on passe le bouton en mode check all
+
+        btnEvent.setAttribute("class", btnEvent.className.replace("btn-warning", "btn-primary"));
+        btnEvent.innerHTML = "Check all"
+
+      }
     }
   }
 })
@@ -117,37 +152,44 @@ function uncheckProduct(btn) {
 
   let div = btn.parentElement.parentElement.parentElement;
 
-  div.setAttribute("class", div.className.replace("alert-success", "alert-dark"));
+  if (div.className.includes("alert-success")) {
 
-  btn.innerHTML = 'Check';
-  btn.setAttribute("class", btn.className.replace("btn-warning", "btn-primary"));
+    div.setAttribute("class", div.className.replace("alert-success", "alert-dark"));
 
-  checkedDivs.splice(checkedDivs.indexOf(div.id), 1);
+    btn.innerHTML = 'Check';
+    btn.setAttribute("class", btn.className.replace("btn-warning", "btn-primary"));
 
-  //si il ne reste plus de boutons checked on l'enleve sauf si il faut udpate
-  if (checkedDivs.length == 0) {
+    checkedDivs.splice(checkedDivs.indexOf(div.id), 1);
 
-    $("#btnDelete").attr("class", $("#btnDelete").attr("class").replace("btn-block", "d-none"));
-    $("#btnAdd").attr("class", $("#btnAdd").attr("class").replace("d-none", "btn-block"));
+    //si il ne reste plus de boutons checked on l'enleve sauf si il faut udpate
+    if (checkedDivs.length == 0) {
 
+      $("#btnDelete").attr("class", $("#btnDelete").attr("class").replace("btn-block", "d-none"));
+      $("#btnAdd").attr("class", $("#btnAdd").attr("class").replace("d-none", "btn-block"));
+      
+      if ($("#btnCheckAll").attr("class").includes("btn-warning")) {
+        $("#btnCheckAll").attr("class", $("#btnCheckAll").attr("class").replace("btn-warning", "btn-primary"));
+        $("#btnCheckAll").html('Check All');
+      }
+    }
   }
 }
 
 function checkProduct(btn) {
 
-  //on recupere la div 3 couches plus haute
   let div = btn.parentElement.parentElement.parentElement;
 
-    //cas ou on passe en mode checked
+  if (div.className.includes("alert-dark")) {
+      //cas ou on passe en mode checked
 
-    div.setAttribute("class", div.className.replace("alert-dark", "alert-success"));
+      div.setAttribute("class", div.className.replace("alert-dark", "alert-success"));
 
-    btn.innerHTML = 'Uncheck';
-    btn.setAttribute("class", btn.className.replace("btn-primary", "btn-warning"));
+      btn.innerHTML = 'Uncheck';
+      btn.setAttribute("class", btn.className.replace("btn-primary", "btn-warning"));
 
-    checkedDivs.push(div.id);
+      checkedDivs.push(div.id);
 
-    $("#btnDelete").attr("class", $("#btnDelete").attr("class").replace("d-none", "btn-block"));
-    $("#btnAdd").attr("class", $("#btnAdd").attr("class").replace("btn-block", "d-none"));
-
+      $("#btnDelete").attr("class", $("#btnDelete").attr("class").replace("d-none", "btn-block"));
+      $("#btnAdd").attr("class", $("#btnAdd").attr("class").replace("btn-block", "d-none"));
+  }
 }
