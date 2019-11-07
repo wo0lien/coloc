@@ -1,6 +1,7 @@
 // dependencies
 
 var session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 var cookieParser = require('cookie-parser');
 var createError = require('http-errors');
 var express = require('express');
@@ -16,6 +17,8 @@ const productRouter = require('./API/routes/product.route');
 const shoplistRouter = require('./routes/shoplist');
 const taskRouter = require('./API/routes/task.route');
 const userRouter = require('./API/routes/user.route');
+
+var indexRouter = require('./routes/index');
 
 var app = express();
 
@@ -59,7 +62,10 @@ app.use(function (req, res, next) {
 app.use(session({
   secret: 'process.env.SECRET',
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
 }));
 app.use(cookieParser());
 app.use(logger('dev'));
@@ -74,9 +80,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-//list of routers used
+//requires login middleware use router.get('/profile', mid.requiresLogin, function(req, res, next) {}) syntax to use it
 
-var indexRouter = require('./routes/index');
+function requiresLogin(req, res, next) {
+  if (req.session && req.session.userId) {
+    return next();
+  } else {
+    var err = new Error('You must be logged in to view this page.');
+    err.status = 401;
+    return next(err);
+  }
+}
 
 //routes
 

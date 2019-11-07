@@ -4,14 +4,10 @@ var bcrypt = require('bcrypt'); //hashing passwords for security
 var UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true,
-    required: true,
-    trim: true
+    required: true
   },
   password: {
     type: String,
-    min: 4,
-    max: 4,
     required: true,
   }
 });
