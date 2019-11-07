@@ -11,8 +11,9 @@ require('dotenv').config();
 
 //new routers import
 
-const productRouter = require('./API/routes/product.route'); 
+const productRouter = require('./API/routes/product.route');
 const shoplistRouter = require('./routes/shoplist');
+const taskRouter = require('./API/routes/task.route');
 
 var app = express();
 
@@ -21,14 +22,14 @@ var app = express();
 //mongo db connection need to handle promise soon
 
 let dbUrl = process.env.MONGO_URL;
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'test'});
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'test' });
 mongoose.set('useFindAndModify', false);
 let db = mongoose.connection;
 db.on('error', (error) => {
   console.log(error);
 });
 
-db.once('open', function() {
+db.once('open', function () {
   console.log('database connected')
 });
 
@@ -46,7 +47,7 @@ app.io.on('connection', function (socket) {
 
 //passing app.io to the req for use in the routes
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   req.io = app.io;
   next();
 });
@@ -78,6 +79,7 @@ app.use('/shoplist', shoplistRouter);
 //new API routes
 
 app.use('/product', productRouter);
+app.use('/task', taskRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

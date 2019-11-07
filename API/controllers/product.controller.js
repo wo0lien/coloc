@@ -95,5 +95,4 @@ function isValidProduct(data, next) {
         let err = new Error("Quantity should be a number");
         return next(err);
     }
-    
 }
