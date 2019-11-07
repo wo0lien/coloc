@@ -1,5 +1,6 @@
 // dependencies
 
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var createError = require('http-errors');
 var express = require('express');
@@ -14,6 +15,7 @@ require('dotenv').config();
 const productRouter = require('./API/routes/product.route');
 const shoplistRouter = require('./routes/shoplist');
 const taskRouter = require('./API/routes/task.route');
+const userRouter = require('./API/routes/user.route');
 
 var app = express();
 
@@ -53,7 +55,12 @@ app.use(function (req, res, next) {
 });
 
 //---------------------------------------------------------------------------
-
+//use sessions for tracking logins
+app.use(session({
+  secret: 'process.env.SECRET',
+  resave: true,
+  saveUninitialized: false
+}));
 app.use(cookieParser());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -80,6 +87,7 @@ app.use('/shoplist', shoplistRouter);
 
 app.use('/product', productRouter);
 app.use('/task', taskRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
