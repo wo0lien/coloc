@@ -3,6 +3,8 @@ extends layout
 block content
 
   //- Content start here
+
+  //entering the vue container
   #vapp
 
     h1.text-center.py-md-3  Liste des ptits bails
@@ -35,9 +37,10 @@ block content
         
     include mixins/modal
     include mixins/formModal
-
+    include mixins/loginModal
+    
+    +loginModal('loginModal', 'Enter the club bro')
     +modal("confirmDelete", "Fais gaffe !", "T'es sûr de ce que tu vas faire là ?", "Ouaip")
-
     +formModal("addObject", "Rajoute un objet de ton choix")
         
 

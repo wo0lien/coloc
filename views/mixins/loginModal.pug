@@ -1,0 +1,21 @@
+//-mixin form for the list add submit
+
+mixin loginModal(id, title)
+  .modal.fade(id=id tabindex='-1' role='dialog' aria-labelledby=id+'Title' aria-hidden='true')
+    .modal-dialog.modal-dialog-centered(role='document')
+      .modal-content
+        .modal-header
+          h5(id=id+"LongTitle" class="modal-title")=title
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          form
+            .form-group
+              label(for='InputUsername') Username
+              input#InputUsername.form-control(type='text' aria-describedby='nomHelp' placeholder='Met ton pseudo là')
+            .form-group
+              label(for='InputPassword') Password
+              input#InputPassword.form-control(type='text' placeholder='Password')
+            button.btn.btn-primary(id="SubmitLoginForm" type='button' data-dismiss='modal' v-on:click="login") Log in
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Ferme
