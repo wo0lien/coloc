@@ -1,7 +1,7 @@
 // dependencies
 
 var session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongo')(session);
 var cookieParser = require('cookie-parser');
 var createError = require('http-errors');
 var express = require('express');
@@ -81,16 +81,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 //requires login middleware use router.get('/profile', mid.requiresLogin, function(req, res, next) {}) syntax to use it
-
-function requiresLogin(req, res, next) {
-  if (req.session && req.session.userId) {
-    return next();
-  } else {
-    var err = new Error('You must be logged in to view this page.');
-    err.status = 401;
-    return next(err);
-  }
-}
 
 //routes
 

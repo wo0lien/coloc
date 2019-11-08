@@ -43,3 +43,36 @@ exports.user_login = function (req, res, next) {
   }
 
 }
+
+exports.user_profile = function (req, res, next) {
+
+  if (req.session && req.session.userId) {
+    User.findById(req.session.userId)
+      .exec(function (error, user) {
+        if (error) {
+          return next(error);
+        } else {
+          if (user === null) {
+            var err = new Error('Not authorized! Go back!');
+            err.status = 400;
+            return next(err);
+          } else {
+            return res.sendStatus(200);
+          }
+        }
+      });
+  } else {
+    var err = new Error('Not logged!');
+    err.status = 400;
+    return next(err);
+  }
+}
+
+exports.user_logout = function (req, res, next) {
+  if (req.session && req.session.userId) {
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  } else {
+    res.redirect('/');
+  }
+}
